@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 40,
-    marginLeft: 5
+    marginLeft: 5,
   },
   guestBtnText: {
     color: Color.primary,
@@ -90,6 +90,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     textAlign: 'center',
+  },
+  ErrorText: {
+    color: 'red',
+    fontSize: 12,
+    marginLeft: 30,
+    marginTop: 8,
   },
 });
 

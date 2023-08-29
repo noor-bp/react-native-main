@@ -6,7 +6,6 @@ import FontSize from '../../constants/FontSize';
 import Dimensions from '../../constants/Dimensions';
 
 const styles = StyleSheet.create({
-
   loginBtn: {
     width: Dimensions.width - 32,
     height: 56,
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20,
     marginLeft: 5,
-    marginBottom: 30
+    marginBottom: 30,
   },
   guestBtnText: {
     color: Color.primary,
@@ -81,6 +80,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     textAlign: 'center',
+  },
+  ErrorText: {
+    color: 'red',
+    fontSize: 12,
+    marginLeft: 30,
+    marginTop: 8,
   },
 });
 

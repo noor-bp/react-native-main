@@ -6,10 +6,10 @@ type Props = {}
 
 const PasswordChangedScreen:React.FC = (props: Props) => {
   return (
-      <View>
-          <PasswordChangedComp/>
+    <View>
+      <PasswordChangedComp />
     </View>
-  )
+  );
 }
 
 export default PasswordChangedScreen

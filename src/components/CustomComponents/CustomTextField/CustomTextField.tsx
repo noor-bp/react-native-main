@@ -9,13 +9,21 @@ type Props = {
   hasPassword?: boolean;
   hasEmail?: boolean | any;
   value?: any;
-  handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange?: any;
   // handleChange?: any;
+  onBlur?: any;
 };
 
-export default function CustomTextField({placeholderTitle, handleChange, hasPassword, hasEmail, value}: Props) {
+export default function CustomTextField({
+  placeholderTitle,
+  handleChange,
+  hasPassword,
+  hasEmail,
+  value,
+  onBlur,
+}: Props) {
   const [hidePassword, setHidePassword] = useState<boolean>(false);
-  const [typeing, setTypeing] = useState<string>("");
+  const [typeing, setTypeing] = useState<string>('');
 
   const handleIconChange = () => {
     setHidePassword(curr => !curr);
@@ -24,17 +32,19 @@ export default function CustomTextField({placeholderTitle, handleChange, hasPass
   useEffect(() => {
     console.log(typeing);
   }, [typeing]);
-  
+
   return (
     <View style={styles.textInputDiv}>
       <TextInput
-        value={typeing}
-        onChangeText={text => setTypeing(text)}
+        value={value}
+        // onChangeText={text => setTypeing(text)}
+        onChangeText={handleChange}
         placeholder={placeholderTitle}
         placeholderTextColor={Color.gray}
         style={styles.textInput}
         keyboardType={hasEmail && 'email-address'}
         secureTextEntry={hasPassword && true}
+        onBlur={onBlur}
       />
       {hasPassword && (
         <>

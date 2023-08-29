@@ -8,10 +8,17 @@ import GrayH1Description from '../CustomComponents/GrayH1Description';
 import styles from './styles';
 import Color from '../../constants/Color';
 import { useNavigation } from '@react-navigation/native';
+import {useFormik, FormikProps} from 'formik';
+import * as Yup from 'yup';
 
-interface Props {
-  
-}
+const OTP_VerificationSchema = Yup.object().shape({
+  pin1: Yup.string().min(1).max(1).required('Please enter your otp'),
+  pin2: Yup.string().min(1).max(1).required('Please enter your otp'),
+  pin3: Yup.string().min(1).max(1).required('Please enter your otp'),
+  pin4: Yup.string().min(1).max(1).required('Please enter your otp'),
+});
+
+interface Props {}
 
 const OTP_VerificationComp = ({}: Props) => {
   interface User {
@@ -20,31 +27,50 @@ const OTP_VerificationComp = ({}: Props) => {
     pin3: any;
     pin4: any;
   }
-  const defaultUser: User = {
-    pin1: null,
-    pin2: null,
-    pin3: null,
-    pin4: null,
+  const initialValues: User = {
+    pin1: '',
+    pin2: '',
+    pin3: '',
+    pin4: '',
   };
-  const [user, setUser] = useState(defaultUser);
+  const [user, setUser] = useState(initialValues);
 
-  const handleOnUserChange = <P extends keyof User>(
-    prop: P,
-    value: User[P],
-  ) => {
-    setUser({...user, [prop]: value});
-  };
-  const handleSubmit = () => {
-    console.log(user);
-  };
-// React.RefObject<HTMLDivElement>;
-  const pin1Ref:any= React.useRef(null);
-  const pin2Ref:any = React.useRef(null);
-  const pin3Ref:any = React.useRef(null);
+  // const handleOnUserChange = <P extends keyof User>(
+  //   prop: P,
+  //   value: User[P],
+  // ) => {
+  //   setUser({...user, [prop]: value});
+  // };
+
+  // React.RefObject<HTMLDivElement>;
+  const pin1Ref: any = React.useRef(null);
+  const pin2Ref: any = React.useRef(null);
+  const pin3Ref: any = React.useRef(null);
   const pin4Ref: any = React.useRef(null);
-  
-  const navigation:any = useNavigation()
 
+  const navigation: any = useNavigation();
+
+  const {
+    values,
+    errors,
+    handleBlur,
+    handleChange,
+    handleReset,
+    handleSubmit,
+    touched,
+    submitCount,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: OTP_VerificationSchema,
+    onSubmit: values => {
+      console.warn(values);
+    },
+  });
+  const autoFocusNextField = (nextFieldRef: any) => {
+    if (nextFieldRef.current) {
+      nextFieldRef.current.focus();
+    }
+  };
   return (
     <SafeAreaView>
       <BackBtn_Heading title={'OTP Verification'} />
@@ -61,13 +87,23 @@ const OTP_VerificationComp = ({}: Props) => {
         }}>
         <View>
           <TextInput
-            value={user.pin1}
-            onChangeText={(pin1: any) => {
-              setUser(pin1);
-              if (pin1 != ('' || 0)) {
-                if (pin2Ref.current) {
-                  pin2Ref.current?.focus();
-                }
+            value={values.pin1}
+            onBlur={handleBlur('pin1')}
+            // handleChange={handleChange('pin1')}
+            // onChangeText={(pin1: any) => {
+            //   // setUser(pin1);
+            //   // if (pin1 != ('' || 0)) {
+            //   //   if (pin2Ref.current) {
+            //   //     pin2Ref.current?.focus();
+            //   //   }
+            //   // }
+            //   handleChange('pin1');
+            // }}
+            // onChangeText={handleChange('pin1')}
+            onChangeText={text => {
+              handleChange('pin1')(text);
+              if (text.length === 1) {
+                autoFocusNextField(pin2Ref);
               }
             }}
             maxLength={1}
@@ -80,18 +116,28 @@ const OTP_VerificationComp = ({}: Props) => {
         </View>
         <View>
           <TextInput
-            value={user.pin2}
-            onChangeText={(pin2: any) => {
-              setUser(pin2);
-              if (pin2 != ('' || 0)) {
-                if (pin3Ref.current) {
-                  pin3Ref.current?.focus();
-                }
-              }
-              if (pin2 == ('' || 0)) {
-                if (pin1Ref.current) {
-                  pin1Ref.current?.focus();
-                }
+            value={values.pin2}
+            onBlur={handleBlur('pin2')}
+            // handleChange={handleChange('username')}
+            // onChangeText={(pin2: any) => {
+            //   setUser(pin2);
+            //   if (pin2 != ('' || 0)) {
+            //     if (pin3Ref.current) {
+            //       pin3Ref.current?.focus();
+            //     }
+            //   }
+            //   if (pin2 == ('' || 0)) {
+            //     if (pin1Ref.current) {
+            //       pin1Ref.current?.focus();
+            //     }
+            //   }
+            //   handleChange('pin2');
+            // }}
+            // onChangeText={handleChange('pin2')}
+            onChangeText={text => {
+              handleChange('pin2')(text);
+              if (text.length === 1) {
+                autoFocusNextField(pin3Ref);
               }
             }}
             maxLength={1}
@@ -105,18 +151,27 @@ const OTP_VerificationComp = ({}: Props) => {
         <View>
           <TextInput
             maxLength={1}
-            value={user.pin3}
-            onChangeText={(pin3: any) => {
-              setUser(pin3);
-              if (pin3 != ('' || 0)) {
-                if (pin4Ref.current) {
-                  pin4Ref.current?.focus();
-                }
-              }
-              if (pin3 == ('' || 0)) {
-                if (pin2Ref.current) {
-                  pin2Ref.current?.focus();
-                }
+            value={values.pin3}
+            onBlur={handleBlur('pin3')}
+            // handleChange={handleChange('username')}
+            // onChangeText={(pin3: any) => {
+            //   setUser(pin3);
+            //   if (pin3 != ('' || 0)) {
+            //     if (pin4Ref.current) {
+            //       pin4Ref.current?.focus();
+            //     }
+            //   }
+            //   if (pin3 == ('' || 0)) {
+            //     if (pin2Ref.current) {
+            //       pin2Ref.current?.focus();
+            //     }
+            //   }
+            //   handleChange('pin3');
+            // }}
+            onChangeText={text => {
+              handleChange('pin3')(text);
+              if (text.length === 1) {
+                autoFocusNextField(pin4Ref);
               }
             }}
             ref={pin3Ref}
@@ -129,15 +184,18 @@ const OTP_VerificationComp = ({}: Props) => {
         <View>
           <TextInput
             maxLength={1}
-            value={user.pin4}
-            onChangeText={(pin4: any) => {
-              setUser(pin4);
-              if (pin4 == ('' || 0)) {
-                if (pin3Ref.current) {
-                  pin3Ref.current?.focus();
-                }
-              }
-            }}
+            value={values.pin4}
+            onBlur={handleBlur('pin4')}
+            // onChangeText={(pin4: any) => {
+            //   setUser(pin4);
+            //   if (pin4 == ('' || 0)) {
+            //     if (pin3Ref.current) {
+            //       pin3Ref.current?.focus();
+            //     }
+            //   }
+            //   handleChange('pin4');
+            // }}
+            onChangeText={handleChange('pin4')}
             ref={pin4Ref}
             style={[
               styles.pin1Input,
@@ -149,7 +207,10 @@ const OTP_VerificationComp = ({}: Props) => {
       <View style={{marginTop: 20}}>
         <FullWidthBlackButton
           title="Verify"
-          handleSubmit={() => navigation.navigate('CreateNewPassword')}
+          handleSubmit={() => {
+            handleSubmit();
+            navigation.navigate('CreateNewPassword');
+          }}
         />
       </View>
 
